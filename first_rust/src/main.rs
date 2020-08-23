@@ -13,16 +13,24 @@ fn main() {
         .expect("failed to read line");
     println!("Welcome to my program {}", name);
 
-    let mut guess = String::new();
-    println!("Can you guess my age?");
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("failed to read line");
-    let guess: u32 = guess.trim().parse().expect("Please type a number!");
-    println!("You guessed: {}", guess);
-    match guess.cmp(&my_age) {
-        Ordering::Less => println!("Too small, my age is {}", my_age),
-        Ordering::Greater => println!("Too big, my age is {}", my_age),
-        Ordering::Equal => println!("Correct!"),
+    loop {
+        println!("Can you guess my age?");
+        let mut guess = String::new();
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("failed to read line");
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+        println!("You guessed: {}", guess);
+        match guess.cmp(&my_age) {
+            Ordering::Less => println!("Too small, my age is {}", my_age),
+            Ordering::Greater => println!("Too big, my age is {}", my_age),
+            Ordering::Equal => {
+                println!("Correct!");
+                break;
+            }
+        }
     }
 }
