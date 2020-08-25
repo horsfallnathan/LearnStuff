@@ -1,10 +1,17 @@
 - [Shadowing](#shadowing)
 - [Data Types](#data-types)
   - [Scalar](#scalar)
-    - [Integer Types](#integer-types)
-    - [Integer Overflow](#integer-overflow)
+    - [Integer](#integer)
+      - [Integer Types](#integer-types)
+      - [Integer Overflow](#integer-overflow)
+    - [Floating-Point Types](#floating-point-types)
+    - [Boolean](#boolean)
+    - [Character Type](#character-type)
+  - [Compound Types](#compound-types)
+    - [Tuples](#tuples)
+    - [Array Type](#array-type)
 
-### Shadowing
+## Shadowing
 
 - Declaring a new variable with the same name as a previously existing variable.
 
@@ -24,13 +31,15 @@
 - A benefit is the variable remains immutable after all operations on it have been completed.
 - Another benefit is that the type of the variable can be changed using this process.
 
-### Data Types
+## Data Types
 
 Broadly grouped into two subsets - Scalar** and **Compound\*\* data types
 
-#### Scalar
+### Scalar
 
-Represents a single value and could be integers, floating-point, numbers, booleans or characters.
+Represents a single value and could be integers, floating-point numbers, booleans or characters.
+
+#### Integer
 
 ##### Integer Types
 
@@ -59,3 +68,64 @@ This occurs when you assign a value that is more that the maximum value an integ
 - This either leads to a panic or wrapping, depending on if you are compiling with the --release flag enabled.
 - Wrapping or technically called `two's complement wrapping` is when values greater than the maximum an integer type can represent wraps around to the minimum. e.g. in a `u8` integer type, 256 becomes 0 and 257 becomes 1.
 - Wrapping when not explicitly desired (using the standard `Wrapping` library) could lead to inaccurate outputs.
+
+#### Floating-Point Types
+
+Cater for numbers with decimal points. There are two types in Rust: `f32` and `f64` default is `f64` because it offers more precision and is almost the same speed on fast computers as the former.
+`f32` - each number uses 32 bits - single precision
+`f64` - each number uses 64 bits - double precision.
+Half precision exists in computer sciences also that when 16 bits is used to represent a number. It is not available in Rust though.
+
+#### Boolean
+
+Boolean types are represented by `bool`
+
+```Rust
+let f: bool = false;
+```
+
+#### Character Type
+
+Rust's literal `char` are specified with single quotes e.g. `'n'`. String literals require double quotes. e.g. `"why?"`
+The Rust `char` type takes 4 bytes
+
+### Compound Types
+
+Groups multiple values into one type, there are two primitive compound types in Rust - tuples and arrays.
+
+#### Tuples
+
+Although it sounds like it contains only a pair of values, it does actually hold more.
+
+- Tuples have a fixed length and cannot grow or shrink in size.
+- Each position in a tuple has a type which can be different from other positions.
+
+```Rust
+fn main() {
+  let tupVar:(u32,char,bool) = (35,'q',true) // tuple with type annotation
+  let tupVar2 = (35,'x',false)
+}
+```
+
+To get individual values from a tuple you could
+
+- Destructure them
+  ```Rust
+  let (num, character, boolean) = tupVar2`
+  ```
+- Use their index position with the dot notation
+
+  ```Rust
+  let ourNum = tupVar.0
+  let ourBool = tupVar.2
+  ```
+
+#### Array Type
+
+- Every item in a array must have the same type
+- An array cannot grow or shrink in size (length).
+  ex:
+  ```Rust
+  let arr = [3,4,1,5]
+  ```
+-

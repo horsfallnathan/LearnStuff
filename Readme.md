@@ -5,4 +5,4 @@ Can be found [here]('./../Notes/notes.md')
 
 ### Rust Notes
 
-Notes made while learning Rust can be found [here]('./../first_rust/notes.md)
+Notes made while learning Rust can be found [here]('./../first_rust/rustNotes.md)
