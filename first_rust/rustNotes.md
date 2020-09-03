@@ -124,6 +124,7 @@ To get individual values from a tuple you could
 
 - Every item in a array must have the same type
 - An array cannot grow or shrink in size (length).
+- Array values are written as a comma separated list in square brackets.
   ex:
   ```Rust
   let arr = [3,4,1,5]
