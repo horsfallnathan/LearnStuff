@@ -1,0 +1,17 @@
+{
+  "name": "bulletproof",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "markdown-to-jsx": "^6.11.4",
+    "ms": "^2.1.2",
+    "next": "9.5.3",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  }
+}
