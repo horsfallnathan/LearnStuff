@@ -1,10 +1,26 @@
 import Theme from "../../components/Theme";
 import ms from "ms";
-import { promises as fsPromises } from "fs";
+import { useRouter } from "next/router";
+import githubCms from "../../lib/gitCms";
 import Markdown from "markdown-to-jsx";
 import Youtube from "../../components/Youtube";
+import Head from "next/head";
 
 export default function Post({ post }) {
+  const router = useRouter();
+  if (router.isFallback) {
+    return <Theme>loading...</Theme>;
+  }
+  if (!post) {
+    return (
+      <Theme>
+        <Head>
+          <meta name="robots" content="noindex" />
+        </Head>
+        404 - Page not found!
+      </Theme>
+    );
+  }
   return (
     <Theme>
       <div className="post">
@@ -29,33 +45,33 @@ export default function Post({ post }) {
 }
 
 export async function getStaticPaths() {
-  const markdownFiles = await fsPromises.readdir("data");
-
-  const paths = markdownFiles.map((filename) => {
-    const slug = filename.replace(/.md$/, "");
-    return {
-      params: { slug },
-    };
-  });
+  const postList = await githubCms.getPostList();
+  const paths = postList.map((post) => ({
+    params: {
+      slug: post.slug,
+    },
+  }));
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
 export async function getStaticProps({ params }) {
-  const [year, month, day, ...rest] = params.slug.split("-");
-  const createdAt = new Date(`${year} ${month} ${day}`).getTime();
-  const title = rest.join(" ");
-  const content = await fsPromises.readFile(`data/${params.slug}.md`, "utf-8");
+  let post = null;
+
+  try {
+    post = await githubCms.getPost(params.slug);
+  } catch (err) {
+    if (err.status !== 404) {
+      throw err;
+    }
+  }
+
   return {
     props: {
-      post: {
-        slug: params.slug,
-        title,
-        content,
-        createdAt,
-      },
+      post,
     },
+    revalidate: 2,
   };
 }
